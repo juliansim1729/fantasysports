@@ -1,5 +1,3 @@
-from datetime import datetime
-
 class Player:
 
     def __init__(self, id, tag, liquidCash):
