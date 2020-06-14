@@ -43,7 +43,7 @@ class Player:
             if i[1] == stock:
                 ind = i
         if ind == -1: # if not found
-            return False
+            raise 
         if amount == "MAX":
             amount = self.portfolio[ind][0]
         if amount > self.portfolio[ind][0]: # if not enough to sell
