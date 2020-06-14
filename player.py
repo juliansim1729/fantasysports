@@ -26,7 +26,7 @@ class Player:
             amount = self.liquidCash % stockPrice
         taxPaid = flatTax + pctTax * amount * stockPrice
         if amount * stockPrice + taxPaid < liquidCash:
-            return False
+            raise NotEnoughLiquidCashError
         else:
             liquidCash -= amount * stockPrice + taxPaid
         if any(stock in item for item in self.portfolio): # if any amount of that stock is currently held
@@ -43,16 +43,19 @@ class Player:
             if i[1] == stock:
                 ind = i
         if ind == -1: # if not found
-            raise 
+            raise StockNotFoundError
         if amount == "MAX":
             amount = self.portfolio[ind][0]
         if amount > self.portfolio[ind][0]: # if not enough to sell
-            return False
+            raise NotEnoughAssetsError
         else:
             if self.portfolio[ind][0] == amount:
                 del self.portfolio[ind]
             else:
                 self.portfolio[ind][0] -= amount
             taxPaid = flatTax + pctTax * amount * stockPrice
-            self.liquidCash += amount * stockPrice - taxPaid
+            if self.liquidCash + amount * stockPrice < taxPaid: # if taxes would cause the player's bal to go neg
+                raise NotEnoughLiquidCashError
+            else:
+                self.liquidCash += amount * stockPrice - taxPaid
             return taxPaid
