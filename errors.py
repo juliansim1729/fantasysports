@@ -9,3 +9,7 @@ class StockNotFoundError(Error):
 class NotEnoughLiquidCashError(Error):
     """Raised when the player does not have enough liquid cash to buy the stocks or to pay the required taxes."""
     pass
+
+class NotEnoughAssetsError(Error):
+    """Raised when the player does not have enough assets to sell."""
+    pass
