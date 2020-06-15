@@ -1,8 +1,9 @@
-class Player:
+class User:
 
-    def __init__(self, id, tag, liquidCash):
+    def __init__(self, id, tag, liquidCash, adminTier = 0):
         self.id = id
         self.tag = tag
+        self.adminTier = adminTier
         self.portfolio = []
         self.liquidCash = liquidCash
         self.netWorth = liquidCash
