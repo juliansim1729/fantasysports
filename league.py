@@ -7,6 +7,10 @@ class FantasyLeague:
 
         self.ratingSystem = "ELO"
 
+        self.configNames = []
+        self.configVals = []
+        self.configDesc = []
+
     # accessible to tier 0 admins
 
     def open(self):
@@ -32,3 +36,9 @@ class FantasyLeague:
 
     def setRatingSystem(self, rs):
         self.ratingSystem = rs
+
+    def accessConfigMenu(self):
+        pass
+
+    def changeConfigSetting(self, configNo, configNewVal):
+        pass
