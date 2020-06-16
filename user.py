@@ -12,7 +12,7 @@ class User:
         return 'fantasy.player({0}, {1}, {2}, {3})'.format(self.id, self.tag, self.portfolio, self.liquidCash)
 
     def __str__(self):
-        builtOutput = 'Player {1} with ID {0} has ${3:.2f} free, with the following items in his portfolio.'.format(self.id, self.tag, self.portfolio, self.liquidCash)
+        builtOutput = 'Player {1} with ID {0} has ${2:.2f} free, with the following items in his portfolio.'.format(self.id, self.tag, self.liquidCash)
         for itemGrouping in portfolio:
             builtOutput += '\n\t {0}\u00d7 {1}'.format(itemGrouping[0], itemGrouping[1])
         return builtOutput
