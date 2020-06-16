@@ -1,6 +1,6 @@
 class User:
 
-    def __init__(self, id, tag, liquidCash, adminTier = 0):
+    def __init__(self, id, tag, liquidCash, adminTier):
         self.id = id
         self.tag = tag
         self.adminTier = adminTier
