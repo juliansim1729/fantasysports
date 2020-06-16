@@ -13,3 +13,7 @@ class NotEnoughLiquidCashError(Error):
 class NotEnoughAssetsError(Error):
     """Raised when the player does not have enough assets to sell."""
     pass
+
+class InvalidValueSubmissionError(Error):
+    """Raised when an invalid value is submitted."""
+    pass
