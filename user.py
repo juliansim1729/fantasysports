@@ -41,7 +41,7 @@ class User:
             self.portfolio.append([amount, stock])
         return taxPaid
 
-    def sell(self, stock, stockPrice, amount = "MAX", flatTax = 0, pctTax = 0):
+    def sell(self, stock, amount = "MAX", flatTax = 0, pctTax = 0):
         ind = -1
         for i in self.portfolio:
             if i[1] == stock:
@@ -57,11 +57,11 @@ class User:
                 del self.portfolio[ind]
             else:
                 self.portfolio[ind][0] -= amount
-            taxPaid = flatTax + pctTax * amount * stockPrice
-            if self.liquidCash + amount * stockPrice < taxPaid: # if taxes would cause the player's bal to go neg
+            taxPaid = flatTax + pctTax * amount * stock.value
+            if self.liquidCash + amount * stock.value < taxPaid: # if taxes would cause the player's bal to go neg
                 raise NotEnoughLiquidCashError
             else:
-                self.liquidCash += amount * stockPrice - taxPaid
+                self.liquidCash += amount * stock.value - taxPaid
             return taxPaid
 
     def sendCash(self, destUser, amount):
@@ -70,3 +70,38 @@ class User:
         else:
             self.liquidCash -= amount
             destUser.liquidCash += amount
+
+
+    # restricted to tier 2 admins
+    def editAdminTier(self, newTier):
+        self.adminTier = newTier
+
+    # restricted to super admins
+    # portfolio editing
+    def outputPortfolio(self):
+        builtOutput = "{0} has the following items in their portfolio.".format(self.tag)
+        counter = 1 # using a counter instead of looping through range, len for brevity
+        for i in self.portfolio:
+            builtOutput += '\n\t {0}. {1}\u00d7 {2}'.format(counter, i[0], i[1])
+            counter += 1
+        return builtOutput
+
+    def resetPortfolio(self):
+        self.porfolio = []
+
+    def forceLiquidate(self, flatTax, pctTax):
+        for i in self.portfolio:
+            self.sell(i[1], i[0], flatTax, pctTax)
+        return self.liquidCash
+
+    def removeFromPortfolio(self, folioNum):
+        return self.portfolio.pop(folioNum - 1)
+
+    def sellFromPortfolio(self, folioNum, flatTax, pctTax):
+        self.sell(self.portfolio[folioNum - 1][1], self.portfolio[folioNum - 1][0], flatTax, pctTax)
+        return self.liquidCash
+
+    # liquid cash editing
+    def editLiquidCash(self, delta):
+        self.liquidCash += delta
+        return self.liquidCash
