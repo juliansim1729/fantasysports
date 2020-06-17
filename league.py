@@ -1,17 +1,16 @@
-import re
-
 class FantasyLeague:
 
     def __init__(self):
         self.openStatus = True
+        self.binomCalc = BinomCalc()
 
         self.teamList = []
         self.userList = []
         self.banList = []
 
         self.configNames = ["RatingSystem", "RatingSensitivity", "MatchOnlyResults", "FlatBuyTax", "PercentBuyTax", "FlatSellTax", "PercentSellTax", \
-                            "PoolSystem", "AllowCashTransfer", "Dividends", "DividendPct", "BansAreWipes", "SuperAdmin"]
-        self.configVals = ["ELO", 18, False, 0, 0, 0, 0, False, False, False, 1, True, False]
+                            "PoolSystem", "AllowCashTransfer", "Dividends", "DividendPct", "BansAreWipes", "SuperAdmin", "FirstTo"]
+        self.configVals = ["ELO", 18, False, 0, 0, 0, 0, False, False, False, 1, True, False, True]
         self.configDesc = ["The rating system used to find and evaluate price changes depending on performance. [ELO, ELOLIN, GLICKO, DWZ]", \
                            "The value which indicates how sensitive the rating system is to recent events. [Positive Number]", \
                            "Results are entered as match scores (e.g. 1-0 or 0-1), instead of game scores (e.g. 4-2) [True/False]", \
@@ -24,8 +23,9 @@ class FantasyLeague:
                            "Stocks pay out dividends (manually), accessible to Tier 1 Admins. [True/False]", \
                            "The percentage of the stock price paid out in dividends to stockholders. [Percent 0 - 100]", \
                            "Bans wipe player stock data, while retaining their information on the banList. [True/False]", \
-                           "Allow Tier 2 Admins to manually edit user information and team information. [True/False]"]
-        self.configTypes = ["rs", "pos", "bin", "pos", "pct", "pos", "pct", "bin", "bin", "bin", "pct", "bin", "bin"]
+                           "Allow Tier 2 Admins to manually edit user information and team information. [True/False]", \
+                           "Play concludes when a team hits a certain amount of wins vs a set amount of games always being played. [True/False]"]
+        self.configTypes = ["rs", "pos", "bin", "pos", "pct", "pos", "pct", "bin", "bin", "bin", "pct", "bin", "bin", "bin"]
 
         # implementation check: 0
 
@@ -63,8 +63,6 @@ class FantasyLeague:
             pass
         elif self.configVals[0] == "DWZ":
             pass
-
-
 
     # accessible to tier 2 admins, tier checks done in FantasyBot.py
     def addTeam(self, teamName, ticker, value):
