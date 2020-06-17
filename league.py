@@ -44,7 +44,7 @@ class FantasyLeague:
     def close(self):
         self.openStatus = False
 
-    def submit_results(self, t1code, t2code, t1score, t2score):
+    def submitMatchResults(self, t1code, t2code, t1score, t2score):
         if self.configVals[0] == "ELO":
             pass
         elif self.configVals[0] == "ELOLIN":
@@ -54,9 +54,21 @@ class FantasyLeague:
         elif self.configVals[0] == "DWZ":
             pass
 
+    def submitGameResults(self, t1code, t2code, t1score, t2score):
+        if self.configVals[0] == "ELO":
+            pass
+        elif self.configVals[0] == "ELOLIN":
+            pass
+        elif self.configVals[0] == "GLICKO":
+            pass
+        elif self.configVals[0] == "DWZ":
+            pass
+
+
+
     # accessible to tier 2 admins, tier checks done in FantasyBot.py
-    def add_team(self, teamName, ticker, value):
-        tm = new Team(teamName, ticker, value)
+    def addTeam(self, teamName, ticker, value):
+        tm = new Stock(teamName, ticker, value)
         self.teamList.append(tm)
 
     def setRatingSystem(self, rs):
