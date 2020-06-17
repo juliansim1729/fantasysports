@@ -9,16 +9,21 @@ class User:
         self.netWorth = liquidCash
 
     def __repr__(self):
-        return 'fantasy.player({0}, {1}, {2}, {3})'.format(self.id, self.tag, self.portfolio, self.liquidCash)
+        return 'fantasy.player({0}, {1}, {2}, {3}, {4}, {5})'.format(self.id, self.tag, self.portfolio, self.liquidCash, self.adminTier, self.netWorth)
 
     def __str__(self):
-        builtOutput = 'Player {1} with ID {0} has ${2:.2f} free, with the following items in his portfolio.'.format(self.id, self.tag, self.liquidCash)
+        builtOutput = 'Player {1} with ID {0} has ${2:.2f} free, with the following items in his portfolio, culminating in a final net worth of ${3:.2f}.'.format(self.id, self.tag, self.liquidCash, self.netWorth)
         for itemGrouping in portfolio:
             builtOutput += '\n\t {0}\u00d7 {1}'.format(itemGrouping[0], itemGrouping[1])
         return builtOutput
 
     def updateTag(self, tag):
         self.tag = tag
+
+    def updateNetWorth(self):
+        self.netWorth = self.liquidCash
+        for i in self.portfolio:
+            self.netWorth += i[0] * i[1].value
 
     def buy(self, stock, stockPrice, amount = "MAX", flatTax = 0, pctTax = 0):
         if amount == "MAX":
@@ -58,3 +63,10 @@ class User:
             else:
                 self.liquidCash += amount * stockPrice - taxPaid
             return taxPaid
+
+    def sendCash(self, destUser, amount):
+        if self.liquidCash < amount:
+            raise NotEnoughLiquidCashError
+        else:
+            self.liquidCash -= amount
+            destUser.liquidCash += amount
